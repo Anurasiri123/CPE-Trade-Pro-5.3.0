@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CPE Trade Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+Sinhala:wght@400;600&family=Noto+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="cpe-mobile.css" />
+</head>
+<body>
+  <audio id="alert-sound" preload="auto">
+    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2teleB0GQp3b5Kx/HwhKoODkt4McB0yj4um+iB0IT6Xh6cKPHwhSp+LqzZQfCFOp4+vQmB8IU6rj7NObHwhUq+Tt1Z4fCFWs5O7XoB8IVq3l7tmhHwhXr+bv26MfCFiw5/DdpB8IWbHo8d+lHwhasujy4KYfCFuz6fPipx8IXLTq9OOoHwhdtuv15akfCF646/bmqh8IYbns9+erHwhiuu346KwfCGO77vnprR8IZLzv+uquHwhlvfD767AfCGa+8fzssR8IZ7/y/e2yHwhowPP+7rMfCGnB9P/vtB8IasL1APCxHwhrw/YB8bIfCGzE9wLztB8IbcX4A/S1HwhuxvkE9bYfCG/H+gX2tx8IcMj7Bve4HwhxyfwH+LkfCHLK/Qj5uh8Ic8v+Cfq7Hwh0zP8K+7wfCHXNAAz8vR8Ids4BDf2+Hwh3zwIO/r8fCHjQAw//wB8IedEEEA==" type="audio/wav" />
+  </audio>
+
+  <div id="welcome-overlay" class="welcome-overlay hidden">
+    <div class="welcome-card">
+      <div class="welcome-glow"></div>
+      <div class="welcome-brand">
+        <div class="welcome-logo">CPE</div>
+        <p class="welcome-eyebrow" data-i18n="welcome_eyebrow">Crypto Profit Eye</p>
+        <h1 data-i18n="welcome_title">Welcome to Trade Pro</h1>
+        <p class="welcome-tag" data-i18n="welcome_tag">Professional signal desk for Spot · Futures · Forex</p>
+      </div>
+      <div class="welcome-contact">
+        <p><strong>Anurasiri Wickramanayake</strong></p>
+        <p>WhatsApp / Mobile: <a href="#" id="welcome-wa">0774940944</a></p>
+        <p>Email: <a href="mailto:Anurasiri123@gmail.com">Anurasiri123@gmail.com</a></p>
+      </div>
+      <div class="welcome-lang">
+        <label data-i18n="language">Language</label>
+        <select class="lang-select" id="welcome-lang"></select>
+      </div>
+      <h3 class="agree-h" data-i18n="agree_h">User Agreement &amp; License Terms</h3>
+      <div class="agree-scroll" id="agree-body" data-i18n-html="agree_html"></div>
+      <label class="agree-check switch-row">
+        <input type="checkbox" id="agree-check" />
+        <span data-i18n="agree_check">I have read and agree to this Agreement, including license terms and that market results are my own responsibility.</span>
+      </label>
+      <p id="agree-msg" class="msg"></p>
+      <button type="button" class="btn primary" id="agree-continue" data-i18n="agree_continue" disabled>Agree &amp; Continue</button>
+      <p class="tiny welcome-foot" data-i18n="welcome_foot">By continuing you confirm you are 18+ and accept full responsibility for your trading decisions.</p>
+    </div>
+  </div>
+
+  <div id="license-gate" class="gate hidden">
+    <div class="gate-panel">
+      <div class="lang-bar">
+        <p class="lang-first-note" data-i18n="lang_first">① First select your language — tour, hints &amp; warnings use it.</p>
+        <label data-i18n="language">Language</label>
+        <select class="lang-select" id="gate-lang"></select>
+        <button type="button" class="btn ghost theme-toggle" id="gate-theme-toggle">Theme: Dark</button>
+      </div>
+      <div class="brand-mark">CPE</div>
+      <h1>CPE Trade Pro</h1>
+      <p class="gate-sub" data-i18n="gate_sub">Binance Spot &amp; Futures · Full Signal Desk · Machine License</p>
+      <div class="machine-box">
+        <span data-i18n="machine_hint">Your Machine ID (send this on WhatsApp to get a license)</span>
+        <code id="machine-id">...</code>
+        <button type="button" class="btn ghost" id="copy-machine" data-i18n="copy">Copy</button>
+      </div>
+
+      <div class="trial-box" id="gate-key-box">
+        <h3 data-i18n="lic_activate_h">Activate / renew license</h3>
+        <label data-i18n="license_key">License Key</label>
+        <input id="license-input" type="text" placeholder="CPE… / CPER.… reward key" autocomplete="off" />
+        <button type="button" class="btn primary" id="activate-btn" data-i18n="activate">Activate Full License</button>
+        <p id="license-msg" class="msg"></p>
+      </div>
+
+      <div id="trial-box" class="trial-box">
+        <h3>7-Day Free Trial / දින 7 නොමිලේ</h3>
+        <p class="tiny" data-i18n="trial_blurb">One trial per computer (7 days). After trial: buy <strong>3-Month USD 15</strong> or <strong>Lifetime USD 100</strong>. Open trades auto-close when trial ends. Select Language first.</p>
+        <div class="ref-gate-box">
+          <label><span data-i18n="ref_code_label">Referral code (optional)</span>
+            <input id="gate-ref-code" type="text" placeholder="CPE-R-XXXXXXXX-XXXXXX-XXXX" autocomplete="off" />
+          </label>
+          <label class="switch-row">
+            <input type="checkbox" id="gate-ref-human" />
+            <span data-i18n="ref_human_confirm">I am a real person (not a farm / bot / same-lab PC)</span>
+          </label>
+        </div>
+        <button type="button" class="btn primary" id="start-trial-btn">Start 7-Day Free Trial</button>
+        <p id="trial-gate-msg" class="msg"></p>
+      </div>
+
+      <div id="buy-box" class="trial-box hidden">
+        <h3 data-i18n="buy_title">Buy license key</h3>
+        <p id="buy-price-line" class="tiny"></p>
+        <div class="buy-plans">
+          <div class="buy-plan" id="plan-month3">
+            <strong data-i18n="plan_m3">3-Month</strong>
+            <p id="buy-m3-price"><strong>USD 15</strong></p>
+            <p class="tiny" data-i18n="plan_m3_note">~90 days · then 3 grace days to close trades / renew</p>
+          </div>
+          <div class="buy-plan featured" id="plan-life">
+            <strong data-i18n="plan_life">Lifetime</strong>
+            <p id="buy-life-price"><strong>USD 100</strong></p>
+            <p class="tiny" data-i18n="plan_life_note">One-time · this computer forever</p>
+          </div>
+        </div>
+        <label><span data-i18n="your_currency">Your currency</span>
+          <select id="buy-currency">
+            <option value="USD">USD</option>
+            <option value="LKR" selected>LKR (Sri Lanka)</option>
+            <option value="INR">INR</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="AED">AED</option>
+            <option value="AUD">AUD</option>
+            <option value="CAD">CAD</option>
+            <option value="JPY">JPY</option>
+            <option value="CNY">CNY</option>
+            <option value="THB">THB</option>
+            <option value="IDR">IDR</option>
+            <option value="MYR">MYR</option>
+            <option value="SGD">SGD</option>
+            <option value="PKR">PKR</option>
+            <option value="BDT">BDT</option>
+          </select>
+        </label>
+        <p id="buy-local-price" class="msg"></p>
+        <div class="pay-methods" id="buy-pay-methods">
+          <h4 data-i18n="pay_how">Pay how you like</h4>
+          <div class="pay-card"><span>🏦 Bank</span><p id="pay-bank">Bank / Wire — WhatsApp for account</p></div>
+          <div class="pay-card"><span>₿ Binance</span><p id="pay-binance">USDT / Binance Pay — WhatsApp for UID</p></div>
+          <div class="pay-card"><span>🅿️ PayPal</span><p id="pay-paypal">Anurasiri123@gmail.com</p></div>
+        </div>
+        <p class="tiny" data-i18n="buy_send_proof">Send Machine ID + which plan + payment proof on WhatsApp to get your key.</p>
+      </div>
+
+      <div class="owner-card">
+        <strong>Anurasiri Wickramanayake</strong>
+        <p>WhatsApp: <a href="#" id="wa-link">0774940944</a></p>
+        <p>Email: <a href="mailto:Anurasiri123@gmail.com">Anurasiri123@gmail.com</a></p>
+        <p class="tiny" data-i18n="license_rule">One license = one computer. New PC = buy a new license from the owner.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="logo" id="logo-area" title="">
+        <span class="logo-badge" id="logo-badge">CPE</span>
+        <div>
+          <strong>Trade Pro</strong>
+          <small>Crypto Profit Eye</small>
+        </div>
+      </div>
+      <div class="sidebar-lang">
+        <label data-i18n="language">Language</label>
+        <select class="lang-select" id="app-lang"></select>
+        <button type="button" class="btn ghost theme-toggle" id="theme-toggle" title="Dark / Light">Theme: Dark</button>
+        <button type="button" class="btn ghost theme-toggle" id="notif-toggle" data-i18n="notif_on">Notifications: ON</button>
+        <button type="button" class="btn ghost theme-toggle" id="shortcut-btn" data-i18n="make_shortcuts">Desktop / Start shortcuts</button>
+      </div>
+      <div id="update-banner" class="update-banner hidden"></div>
+      <nav>
+        <button class="nav-btn" data-view="chartlab" data-i18n="nav_chartlab">Chart Lab</button>
+        <button class="nav-btn active" data-view="spot" data-i18n="nav_spot">Spot Desk</button>
+        <button class="nav-btn" data-view="futures" data-i18n="nav_futures">Futures Desk</button>
+        <button class="nav-btn" data-view="forex">Forex Desk</button>
+        <button class="nav-btn nav-trade-now" data-view="trade" data-i18n="nav_trade">Trade Now</button>
+        <button class="nav-btn" data-view="positions" data-i18n="nav_positions">Positions / TP</button>
+        <button class="nav-btn" data-view="livehelp" data-i18n="nav_livehelp">Live Help</button>
+        <button class="nav-btn" data-view="news" data-i18n="nav_news">News &amp; Tricks</button>
+        <button class="nav-btn" data-view="learn" data-i18n="nav_learn">Learning Class</button>
+        <button class="nav-btn" data-view="journal" data-i18n="nav_journal">Trade Journal</button>
+        <button class="nav-btn" data-view="signallab" data-i18n="nav_signallab">Signal History</button>
+        <button class="nav-btn" data-view="keys" data-i18n="nav_keys">API Keys</button>
+        <button class="nav-btn" data-view="help" data-i18n="nav_help">Help</button>
+        <button class="nav-btn" data-view="license" data-i18n="nav_license">License</button>
+        <button class="nav-btn hidden" id="nav-owner" data-view="owner-tools" data-i18n="nav_owner">Owner Tools</button>
+      </nav>
+      <div class="sidebar-foot">
+        <div id="live-clock"></div>
+        <div id="candle-eta" class="eta">Candle: —</div>
+        <div id="trial-banner" class="trial-banner hidden"></div>
+        <div id="license-warn-banner" class="license-warn-banner hidden"></div>
+        <div class="owner-mini">Anurasiri Wickramanayake<br />0774940944 · Anurasiri123@gmail.com</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h2 id="view-title" data-i18n="spot_title">Spot Desk</h2>
+          <p id="view-sub" data-i18n="spot_sub">Bollinger · Fibonacci · Candles · MACD · Momentum · Psychology</p>
+        </div>
+        <div class="top-actions">
+          <div class="mode-stack">
+            <span class="binance-chip hidden" id="top-platform-chip" title="">
+              <span class="bn-mark" id="top-platform-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M16.62 13.92l2.72 2.72-7.35 7.35-7.36-7.35 2.72-2.72L12 18.58l4.62-4.66zm2.72-10.04L24 8.62l-2.72 2.72L12 2.03 2.72 11.33 0 8.62l4.66-4.74L7.38 1.16 12 5.81l4.62-4.65 4.72 4.72zm-16.26 5.02l2.72 2.72-2.72 2.72L.36 11.62l2.72-2.72zM19.34 8.9l2.72 2.72-2.72 2.71-2.71-2.71L19.34 8.9zm-8.13-2.72l2.72 2.72L12 11.62 9.28 8.9 11.21 6.18z"/></svg></span>
+              <span class="bn-text" id="top-platform-name">Binance</span>
+              <span class="bn-pill" id="top-platform-pill">DEMO</span>
+              <span class="bn-dot hidden" id="top-binance-dot" title="Your public IP changed — update the IP whitelist in Binance API Management"></span>
+            </span>
+            <div class="mode-switch" id="mode-switch" title="Demo practice vs Live">
+              <button type="button" class="mode-btn active" id="mode-demo" data-mode="demo">DEMO</button>
+              <button type="button" class="mode-btn" id="mode-live" data-mode="live">LIVE</button>
+            </div>
+          </div>
+          <select id="interval-select">
+            <option value="5m">5m</option>
+            <option value="15m">15m</option>
+            <option value="30m">30m</option>
+            <option value="1h">1H</option>
+            <option value="4h">4H</option>
+            <option value="1d" selected>1D</option>
+            <option value="1M">1 Month</option>
+            <option value="1w">1W</option>
+          </select>
+          <select id="scan-limit">
+            <option value="30">Top 30</option>
+            <option value="50" selected>Top 50</option>
+            <option value="80">Top 80</option>
+            <option value="100">Top 100</option>
+          </select>
+          <button class="btn primary" id="scan-btn" data-i18n="scan">Scan Market</button>
+          <button class="btn ghost" id="auto-scan-btn" data-i18n="auto_scan_on">Auto Scan ON</button>
+          <button class="btn ghost" id="multitf-btn" title="Read every pair on 3m · 15m · 1h · 4h · 1d at once (auto-limits to Top 20)">Multi-TF · 5 timeframes</button>
+          <button class="btn ghost" id="scalp-btn" title="15-minute scalp desk — strongest quick in/out setups only, on Binance & Forex (auto-limits to Top 20)">Scalp · 15m</button>
+        </div>
+      </header>
+
+      <section id="mtf-panel" class="panel mtf-panel hidden">
+        <div class="panel-h">
+          <h3>Multi-Timeframe Signals <span class="mtf-market-pill" id="mtf-market-pill">SPOT</span></h3>
+          <span class="tiny" id="mtf-summary"></span>
+          <input type="search" id="mtf-search" placeholder="Filter list (optional)" />
+        </div>
+        <p class="tiny">Each row reads the same pair on every timeframe. <b>Confluence</b> shows how many timeframes agree (3/5 BUY = three timeframes point up). Click a row for the chart.</p>
+        <div class="table-wrap">
+          <table class="mtf-table">
+            <thead>
+              <tr>
+                <th>Pair</th>
+                <th>3m</th><th>15m</th><th>1h</th><th>4h</th><th>1d</th>
+                <th>Confluence</th>
+                <th>Price</th>
+                <th>24h %</th>
+              </tr>
+            </thead>
+            <tbody id="mtf-table"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="scalp-panel" class="panel scalp-panel hidden">
+        <div class="panel-h">
+          <h3>Scalp Signals · 15m <span class="scalp-market-pill" id="scalp-market-pill">SPOT</span></h3>
+          <span class="tiny" id="scalp-summary"></span>
+          <input type="search" id="scalp-search" placeholder="Filter list (optional)" />
+        </div>
+        <p class="tiny">15-minute scalp desk — <b>only the strongest quick-profit setups</b> (STRONG read only). TP1/TP2/SL are ATR-based and tight (1× / 1.5× / 2.5× ATR), so the trade is in and out fast. Crypto reads Binance 15m; Forex reads real intraday 15m bars. Click a row for the chart.</p>
+        <div class="table-wrap">
+          <table class="scalp-table">
+            <thead>
+              <tr>
+                <th>Pair</th>
+                <th>Signal</th>
+                <th>Entry</th>
+                <th>TP1</th>
+                <th>TP2</th>
+                <th>SL</th>
+                <th>R:R</th>
+                <th>ATR %</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody id="scalp-table"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div id="demo-strip" class="demo-strip">
+        <strong id="demo-strip-title" data-i18n="demo_strip_title">DEMO PRACTICE</strong>
+        <span id="demo-strip-body" data-i18n="demo_strip_body">Full charts · candlesticks · patterns · scan · paper trades — same as live desk. No real money. Add platform API key before LIVE.</span>
+        <button type="button" class="btn ghost" id="demo-goto-keys" data-i18n="demo_goto_keys">Add API key</button>
+      </div>
+
+      <div id="scan-progress" class="progress hidden">
+        <div class="progress-bar" id="progress-bar"></div>
+        <span id="progress-text" data-i18n="scanning">Scanning…</span>
+      </div>
+
+      <div id="toast-stack" class="toast-stack"></div>
+
+      <section id="view-spot" class="view">
+        <div class="stat-row">
+          <div class="stat"><span data-i18n="pairs">USDT Pairs</span><strong id="spot-pair-count">—</strong></div>
+          <div class="stat"><span data-i18n="buy">BUY</span><strong id="spot-buy-count">—</strong></div>
+          <div class="stat"><span data-i18n="bb_lower">BB Lower</span><strong id="spot-bb-count">—</strong></div>
+          <div class="stat"><span data-i18n="new_watch">New / Watch</span><strong id="spot-new-count">—</strong></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-h">
+              <h3 data-i18n="signals">Signals</h3>
+              <input type="search" id="spot-search" data-i18n-placeholder="search_ph" placeholder="Filter list (optional)" />
+            </div>
+            <p class="tiny desk-empty-hint" id="spot-desk-hint">This tab lists all scanned signals at once. Click a row for the chart.</p>
+            <div class="desk-pair-bar desk-find">
+              <label class="tiny">Optional — one pair
+                <input type="search" id="spot-pair-type" placeholder="btc, eth…" autocomplete="off" />
+              </label>
+              <select id="spot-pair-pick"></select>
+              <button type="button" class="btn ghost" id="spot-pair-go">Open chart</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Pair</th><th>Type</th><th>Price</th><th>Entry</th>
+                    <th>TP1</th><th>TP2</th><th>SL</th><th>Score</th><th></th>
+                  </tr>
+                </thead>
+                <tbody id="spot-table"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel detail-panel">
+            <h3 class="chart-pop-open" data-market="SPOT" data-i18n="chart_why">Chart + Why</h3>
+            <canvas id="spot-chart" width="640" height="260"></canvas>
+            <div id="spot-detail" class="detail empty" data-i18n="click_row">Click a row</div>
+          </div>
+        </div>
+        <div class="panel mt">
+          <h3 data-i18n="bb_candidates">Bollinger Lower Band Buy Candidates</h3>
+          <div id="spot-bb-list" class="chip-list"></div>
+        </div>
+        <div class="panel mt">
+          <h3 data-i18n="upcoming_pairs">Upcoming Listings</h3>
+          <p class="tiny" data-i18n="upcoming_hint">Coins Binance has announced but NOT listed yet — soonest first, so the next to open is on top. Highlighted at 3 days / 1 day / 3 hours / 30 minutes before the open; a notification pops up the moment one goes live.</p>
+          <div id="spot-upcoming-list" class="chip-list up-list"></div>
+        </div>
+        <div class="grid-2 mt">
+          <div class="panel">
+            <h3 data-i18n="new_pairs">New Pairs</h3>
+            <p class="tiny">Recently listed pairs (last 30 days) — listing date, time since listing, current signal &amp; entry price. Double-click a chip to open its live chart.</p>
+            <div id="spot-new-list" class="chip-list"></div>
+          </div>
+          <div class="panel">
+            <h3 data-i18n="watchlist">Watchlist</h3>
+            <div id="watch-list" class="chip-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-forex" class="view hidden">
+        <div class="stat-row">
+          <div class="stat"><span>FX pairs</span><strong id="fx-pair-count">—</strong></div>
+          <div class="stat"><span>BUY</span><strong id="fx-buy-count">—</strong></div>
+          <div class="stat"><span>SELL</span><strong id="fx-sell-count">—</strong></div>
+          <div class="stat"><span>BB Lower</span><strong id="fx-bb-count">—</strong></div>
+        </div>
+        <div id="fx-weekend-banner" class="fx-weekend-banner hidden">
+          <div class="fx-weekend-icon">🔒</div>
+          <div class="fx-weekend-text">
+            <strong>Forex Market Closed (Weekend)</strong>
+            <span>The global Forex market is closed on Saturday &amp; Sunday. Live price action and new trading signals resume on Monday.</span>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-h">
+              <h3>Forex Signals (live rates · paper trade)</h3>
+              <input type="search" id="fx-search" placeholder="Filter list (optional)" />
+            </div>
+            <p class="tiny desk-empty-hint" id="fx-desk-hint">All forex pairs in this tab show together (EUR, GBP, Gold…). Click a row.</p>
+            <div class="desk-pair-bar desk-find">
+              <label class="tiny">Optional — one pair
+                <input type="search" id="fx-pair-type" placeholder="gold, eurusd…" autocomplete="off" />
+              </label>
+              <select id="fx-pair-pick"></select>
+              <button type="button" class="btn ghost" id="fx-pair-go">Open chart</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Pair</th><th>Type</th><th>Price</th><th>Entry</th>
+                    <th>TP1</th><th>TP2</th><th>SL</th><th>Score</th>
+                  </tr>
+                </thead>
+                <tbody id="fx-table"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel detail-panel">
+            <h3 class="chart-pop-open" data-market="FOREX">Forex Chart + Why</h3>
+            <canvas id="fx-chart" width="640" height="260"></canvas>
+            <div id="fx-detail" class="detail empty" data-i18n="click_row">Click a row</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-futures" class="view hidden">
+        <div class="stat-row futures-theme">
+          <div class="stat"><span data-i18n="perp_pairs">Perp pairs</span><strong id="fut-pair-count">—</strong></div>
+          <div class="stat"><span data-i18n="buy">BUY</span><strong id="fut-buy-count">—</strong></div>
+          <div class="stat"><span data-i18n="sell">SELL</span><strong id="fut-sell-count">—</strong></div>
+          <div class="stat"><span data-i18n="bb_lower">BB Lower</span><strong id="fut-bb-count">—</strong></div>
+          <div class="stat"><span data-i18n="new_pairs">New Pairs</span><strong id="fut-new-count">—</strong></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-h">
+              <h3 data-i18n="fut_signals">Futures Signals</h3>
+              <input type="search" id="fut-search" data-i18n-placeholder="search_ph" placeholder="Filter list (optional)" />
+            </div>
+            <p class="tiny desk-empty-hint" id="fut-desk-hint">This tab lists all futures signals at once. Click a row for the chart.</p>
+            <div class="desk-pair-bar desk-find">
+              <label class="tiny">Optional — one pair
+                <input type="search" id="fut-pair-type" placeholder="btc, sol…" autocomplete="off" />
+              </label>
+              <select id="fut-pair-pick"></select>
+              <button type="button" class="btn ghost" id="fut-pair-go">Open chart</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Pair</th><th>Type</th><th>Price</th><th>Entry</th>
+                    <th>TP1</th><th>TP2</th><th>SL</th><th>Score</th><th></th>
+                  </tr>
+                </thead>
+                <tbody id="fut-table"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel detail-panel">
+            <h3 class="chart-pop-open" data-market="FUTURES" data-i18n="fut_chart">Futures Chart + Psychology</h3>
+            <canvas id="fut-chart" width="640" height="260"></canvas>
+            <div id="fut-detail" class="detail empty" data-i18n="click_row">Click a row</div>
+          </div>
+        </div>
+        <div class="panel mt">
+          <h3 data-i18n="fut_bb">Futures Bollinger Lower Buys</h3>
+          <div id="fut-bb-list" class="chip-list"></div>
+        </div>
+        <div class="panel mt">
+          <h3 data-i18n="upcoming_pairs">Upcoming Listings</h3>
+          <p class="tiny" data-i18n="upcoming_hint">Coins Binance has announced but NOT listed yet — soonest first, so the next to open is on top. Highlighted at 3 days / 1 day / 3 hours / 30 minutes before the open; a notification pops up the moment one goes live.</p>
+          <div id="fut-upcoming-list" class="chip-list up-list"></div>
+        </div>
+        <div class="panel mt">
+          <h3 data-i18n="new_pairs">New Pairs</h3>
+          <p class="tiny">Recently listed perpetuals (last 30 days) — listing date, time since listing, current signal &amp; entry price. Double-click a chip to open its live chart.</p>
+          <div id="fut-new-list" class="chip-list"></div>
+        </div>
+      </section>
+
+      <section id="view-chartlab" class="view hidden">
+        <div class="chartlab-hero">
+          <div>
+            <p class="eyebrow">Crypto + Forex · Candles · BB · Patterns</p>
+            <h3 class="chartlab-title">Chart Lab</h3>
+            <p class="tiny">Crypto (Binance Spot/Futures) and Forex charts — candles, patterns, full analysis.</p>
+          </div>
+          <div class="chartlab-controls">
+            <label>Market
+              <select id="lab-market">
+                <option value="SPOT">Crypto Spot</option>
+                <option value="FUTURES">Crypto Futures</option>
+                <option value="FOREX">Forex</option>
+              </select>
+            </label>
+            <label>Interval
+              <select id="lab-interval">
+                <option value="5m">5m</option>
+                <option value="15m">15m</option>
+                <option value="30m">30m</option>
+                <option value="1h">1h</option>
+                <option value="4h" selected>4h</option>
+                <option value="1d">1d</option>
+                <option value="1w">1w</option>
+                <option value="1M">1M</option>
+              </select>
+            </label>
+            <label class="lab-pair-wrap">Pair search
+              <input id="lab-pair-search" type="search" placeholder="BTC, ETH, SOL…" autocomplete="off" />
+            </label>
+            <label>Binance pair
+              <select id="lab-pair"></select>
+            </label>
+            <button type="button" class="btn primary" id="lab-analyze">Analyze Chart</button>
+          </div>
+        </div>
+        <div class="chartlab-grid">
+          <div class="panel chartlab-canvas-panel">
+            <div class="panel-h">
+              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <h3 id="lab-chart-title" style="margin:0">Candlestick chart</h3>
+                <span class="badge BUY" style="font-size:.65rem; background:rgba(34,197,94,.18); color:#22c55e; animation: livePing 1.8s ease infinite;">● LIVE FEED</span>
+                <span id="lab-basis" class="tiny"></span>
+              </div>
+              <div class="chart-zoom-bar">
+                <button type="button" class="btn ghost zoom-btn" id="lab-zoom-out" title="Zoom out">−</button>
+                <span id="lab-zoom-label" class="tiny">1x</span>
+                <button type="button" class="btn ghost zoom-btn" id="lab-zoom-in" title="Zoom in">+</button>
+                <button type="button" class="btn ghost zoom-btn" id="lab-zoom-reset" title="Reset">Reset</button>
+                <span id="lab-signal-badge" class="badge HOLD">—</span>
+                <button type="button" class="btn ghost zoom-btn" id="lab-mtf-toggle" title="Overlay 15m / 1h / 4h and check for confirmation">Compare 15m·1h·4h</button>
+                <button type="button" class="btn ghost zoom-btn active" id="lab-future-toggle" title="Leave blank space on the right so you can project forecast lines into the future">Future space</button>
+                <button type="button" class="btn ghost zoom-btn active" id="lab-forecast-toggle" title="Project how this chart is likely to form over the next ~3 months — trend drift plus a volatility cone. Click to hide/show.">Forecast 3M</button>
+                <button type="button" class="btn ghost zoom-btn active" id="lab-targets-toggle" title="Measured-move target blocks from the patterns that belong to this signal. Click to hide/show.">Signal targets</button>
+                <button type="button" class="btn ghost zoom-btn" id="lab-plain-toggle" title="Normal view — a clean price chart with no analysis, waves, levels or forecast lines. Click again to bring everything back.">Normal view</button>
+                <button type="button" class="btn ghost zoom-btn" id="lab-fullscreen" title="Full screen chart">⛶ Full</button>
+              </div>
+            </div>
+            <div class="draw-toolbar tv-toolbar" id="lab-tv-toolbar">
+              <span class="draw-toolbar-label">Chart</span>
+              <div class="tv-seg" id="lab-typeseg">
+                <button type="button" class="tv-btn" data-type="candles" title="Candlestick chart">Candles</button>
+                <button type="button" class="tv-btn" data-type="heikin" title="Heikin-Ashi — smoother trend candles">HA</button>
+                <button type="button" class="tv-btn" data-type="bars" title="OHLC bars">Bars</button>
+                <button type="button" class="tv-btn" data-type="line" title="Close-price line">Line</button>
+                <button type="button" class="tv-btn" data-type="area" title="Filled area">Area</button>
+              </div>
+              <span class="tv-sep"></span>
+              <div class="tv-seg" id="lab-tfseg">
+                <button type="button" class="tv-btn" data-tf="5m">5m</button>
+                <button type="button" class="tv-btn" data-tf="15m">15m</button>
+                <button type="button" class="tv-btn" data-tf="30m">30m</button>
+                <button type="button" class="tv-btn" data-tf="1h">1h</button>
+                <button type="button" class="tv-btn" data-tf="4h">4h</button>
+                <button type="button" class="tv-btn" data-tf="1d">1d</button>
+                <button type="button" class="tv-btn" data-tf="1w">1w</button>
+              </div>
+              <span class="tv-sep"></span>
+              <button type="button" class="tv-btn" id="lab-log-toggle" title="Logarithmic price scale">LOG</button>
+              <button type="button" class="tv-btn" id="lab-snapshot" title="Download this chart as a PNG image">⤓ Snapshot</button>
+              <span class="tiny" id="lab-tv-hint">Crosshair follows your pointer · keyboard ← → pan · + − zoom · double-click resets.</span>
+            </div>
+            <div class="lab-toolbars">
+            <div class="draw-toolbar" id="lab-draw-toolbar">
+              <span class="draw-toolbar-label">Manual tools</span>
+              <button type="button" class="draw-btn active" data-tool="none">Cursor</button>
+              <button type="button" class="draw-btn" data-tool="trend">Trend line</button>
+              <button type="button" class="draw-btn" data-tool="ray">Ray</button>
+              <button type="button" class="draw-btn" data-tool="ext">Extended</button>
+              <button type="button" class="draw-btn" data-tool="hline">Horizontal</button>
+              <button type="button" class="draw-btn" data-tool="fib">Fibonacci</button>
+              <button type="button" class="draw-btn" data-tool="zone">Zone · R:R</button>
+              <button type="button" class="draw-btn" data-tool="target">Target</button>
+              <button type="button" class="draw-btn" data-tool="path">Forecast</button>
+              <button type="button" class="draw-btn" data-tool="measure">Measure</button>
+              <button type="button" class="draw-btn danger" id="lab-draw-clear">Clear</button>
+              <span class="tiny" id="lab-draw-hint">Scroll = zoom · drag or Shift+scroll = move through history · click a candle for its details.</span>
+            </div>
+            <div class="draw-toolbar pattern-toolbar">
+              <span class="draw-toolbar-label">Pattern analysis</span>
+              <select id="lab-pattern-filter" class="draw-select" title="Show one pattern family on the chart and in the list">
+                <option value="all">All patterns</option>
+                <option value="cup">Cup &amp; Handle</option>
+                <option value="hs">Head &amp; Shoulders</option>
+                <option value="double">Double top / bottom</option>
+                <option value="triple">Triple top / bottom</option>
+                <option value="triangle">Triangles &amp; wedges</option>
+                <option value="flag">Flags &amp; pennants</option>
+                <option value="channel">Channels</option>
+                <option value="rounding">Rounding / saucer</option>
+                <option value="broadening">Broadening formation</option>
+              </select>
+              <button type="button" class="draw-btn" id="lab-pattern-focus" title="Zoom to the strongest matching pattern">Focus latest</button>
+              <span class="tiny" id="lab-pattern-hint">Cup &amp; Handle, H&amp;S, double/triple, triangles, flags, channels… click a card to zoom to it.</span>
+            </div>
+            <div class="draw-toolbar indicator-toolbar" id="lab-indicator-toolbar">
+              <span class="draw-toolbar-label">Indicators</span>
+              <button type="button" class="ind-btn" data-ind="rsi" title="Relative Strength Index — 14 period, drawn under the candles">RSI (14)</button>
+              <button type="button" class="ind-btn" data-ind="stoch" title="Stochastic oscillator (14,3,3) — %K and %D momentum, drawn under the candles">Stoch</button>
+              <button type="button" class="ind-btn" data-ind="macd" title="MACD 12/26/9 — line, signal and histogram">MACD</button>
+              <button type="button" class="ind-btn" data-ind="adx" title="ADX / DMI (14) — trend strength with +DI and −DI directional lines">ADX</button>
+              <button type="button" class="ind-btn" data-ind="volume" title="Trading volume per candle">Volume</button>
+              <button type="button" class="ind-btn" data-ind="ema" title="EMA 9 and EMA 21 drawn on the price chart">EMA 9/21</button>
+              <button type="button" class="ind-btn" data-ind="sma50" title="SMA 50 trend line on the price chart">SMA 50</button>
+              <button type="button" class="ind-btn" data-ind="bb" title="Bollinger Bands (20, 2) — the shaded envelope around price">BB</button>
+              <button type="button" class="ind-btn" data-ind="ichimoku" title="Ichimoku Cloud (9, 26, 52) — Tenkan, Kijun and the Senkou cloud on price">Ichimoku</button>
+              <button type="button" class="ind-btn" data-ind="vwap" title="Volume-Weighted Average Price — the institutional benchmark line">VWAP</button>
+              <button type="button" class="ind-btn" data-ind="wave" title="Elliott Wave count — labels the 0-1-2-3-4-5 impulse and projects the wave-5 Fibonacci extension">Elliott</button>
+              <span class="tiny" id="lab-ind-hint">Click an indicator to turn it on or off — it is drawn immediately.</span>
+            </div>
+            </div>
+            <canvas id="lab-chart" width="900" height="380"></canvas>
+            <div class="lab-candle-float hidden" id="lab-candle-float"></div>
+            <div class="lab-levels" id="lab-levels"></div>
+            <div class="lab-mtf hidden" id="lab-mtf"></div>
+            <div class="lab-patterns" id="lab-patterns"></div>
+          </div>
+          <div class="panel chartlab-side">
+            <div class="candle-card" id="lab-candle-card">
+              <span class="candle-card-label">Candle pattern</span>
+              <strong id="lab-candle-name">Select a pair</strong>
+              <p id="lab-candle-note" class="tiny">Patterns appear after Analyze.</p>
+            </div>
+            <div class="candle-detail hidden" id="lab-candle-detail">
+              <div class="candle-detail-head">
+                <span class="candle-card-label">Clicked candle</span>
+                <button type="button" class="candle-detail-x" id="lab-candle-close" title="Clear selection">×</button>
+              </div>
+              <strong id="lab-candle-time">—</strong>
+              <div class="lab-metrics" id="lab-candle-ohlc"></div>
+              <p class="tiny" id="lab-candle-extra"></p>
+            </div>
+            <div class="lab-metrics" id="lab-metrics"></div>
+            <h4>Why this signal</h4>
+            <div class="detail" id="lab-reasons"><p class="empty">Pick a Binance pair and click Analyze.</p></div>
+            <div class="row">
+              <button type="button" class="btn ghost" id="lab-to-trade">Send to Manual Trade</button>
+              <button type="button" class="btn ghost" id="lab-ask-help">Ask Live Help</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-livehelp" class="view hidden">
+        <div class="livehelp-layout">
+          <div class="panel livehelp-chat-panel">
+            <div class="livehelp-head">
+              <div class="livehelp-avatar">AW</div>
+              <div>
+                <strong>Live Help · Anurasiri</strong>
+                <p class="tiny">Trial + License · Instant answers · WhatsApp for live owner</p>
+              </div>
+              <span class="live-dot" title="Online help desk"></span>
+            </div>
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-chips" id="chat-chips">
+              <button type="button" class="chip chat-chip" data-q="How does the 7-day trial work?">Trial?</button>
+              <button type="button" class="chip chat-chip" data-q="How to set trailing stop loss?">Trailing SL</button>
+              <button type="button" class="chip chat-chip" data-q="How to connect Binance API keys?">API Keys</button>
+              <button type="button" class="chip chat-chip" data-q="How to analyze chart candles and pairs?">Chart Lab</button>
+              <button type="button" class="chip chat-chip" data-q="License price USD 30 LKR">License price</button>
+            </div>
+            <div class="chat-compose">
+              <input id="chat-input" type="text" placeholder="Type your question…" maxlength="800" />
+              <button type="button" class="btn primary" id="chat-send">Send</button>
+            </div>
+            <div class="row chat-actions">
+              <button type="button" class="btn ghost" id="chat-wa">Send to Owner on WhatsApp</button>
+              <button type="button" class="btn ghost" id="chat-clear">Clear chat</button>
+            </div>
+          </div>
+          <div class="panel livehelp-side">
+            <h3>Owner contact</h3>
+            <p><strong>Anurasiri Wickramanayake</strong></p>
+            <p class="tiny">WhatsApp 0774940944 · Anurasiri123@gmail.com</p>
+            <p class="tiny">Chat works for free trial and full license users. WhatsApp opens with your Machine ID + recent messages so the owner can help fast.</p>
+            <div class="owner-card">
+              <strong>Tip</strong>
+              <p class="tiny">Use Chart Lab first, then ask Live Help about the pair / candle you see.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-trade" class="view hidden">
+        <div class="practice-banner" id="practice-banner">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <strong data-i18n="practice_title">Demo Practice vs Live</strong>
+            <button type="button" class="btn ghost mini" id="open-trade-guide-btn" style="width:auto; margin:0;">ℹ️ Trading Guide &amp; Safety Rules</button>
+          </div>
+          <p data-i18n="practice_body">Use top bar <b>DEMO</b> first: full candle charts, stick patterns, scan, TP/SL/trail, positions &amp; journal — same desk as live, no real money. <b>LIVE</b> needs the correct platform API key (Withdrawals OFF). Notifications remind you to add the key while you practice.</p>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <h3 data-i18n="manual_trade">Manual Trade</h3>
+            <p id="tr-hint" class="field-hint">Select platform + market — required fields appear below.</p>
+            <p class="tiny" id="tr-signals-note">Signals for the selected market appear here after a scan.</p>
+            <div id="tr-signals" class="caution-list"></div>
+            <div class="form-grid" id="tr-form">
+              <label>Platform
+                <select id="tr-platform"></select>
+              </label>
+              <label>Market
+                <select id="tr-market"></select>
+              </label>
+              <label id="tr-wrap-symbol">Symbol<input id="tr-symbol" placeholder="BTCUSDT / EURUSD" /></label>
+              <label id="tr-wrap-side">Side
+                <select id="tr-side"><option>BUY</option><option>SELL</option></select>
+              </label>
+              <label id="tr-wrap-type" class="fld-crypto">Order type
+                <select id="tr-type"><option>MARKET</option><option>LIMIT</option></select>
+              </label>
+              <label id="tr-wrap-quote" class="fld-crypto">USDT amount
+                <input id="tr-quote" type="number" step="any" value="11" min="1" />
+              </label>
+              <label id="tr-wrap-lots" class="fld-forex hidden">Lots / units
+                <input id="tr-lots" type="number" step="0.01" value="0.01" min="0.01" />
+              </label>
+              <label id="tr-wrap-qty" class="fld-crypto">Quantity (optional)
+                <input id="tr-qty" type="number" step="any" />
+              </label>
+              <label id="tr-wrap-price">Limit / Entry Price
+                <input id="tr-price" type="number" step="any" />
+              </label>
+              <label id="tr-wrap-leverage" class="fld-futures hidden">Futures Leverage
+                <select id="tr-leverage">
+                  <option value="1">1x</option>
+                  <option value="2">2x</option>
+                  <option value="3">3x</option>
+                  <option value="5" selected>5x</option>
+                  <option value="10">10x</option>
+                  <option value="20">20x</option>
+                  <option value="25">25x</option>
+                  <option value="50">50x</option>
+                  <option value="75">75x</option>
+                  <option value="125">125x</option>
+                </select>
+              </label>
+              <label id="tr-wrap-margin" class="fld-futures hidden">Margin mode
+                <select id="tr-margin">
+                  <option value="CROSSED">Cross</option>
+                  <option value="ISOLATED">Isolated</option>
+                </select>
+              </label>
+              <label>Take Profit 1<input id="tr-tp" type="number" step="any" /></label>
+              <label>Take Profit 2<input id="tr-tp2" type="number" step="any" /></label>
+              <label>Stop Loss<input id="tr-sl" type="number" step="any" /></label>
+              <label>TP1 close % of size
+                <input id="tr-tp1pct" type="number" value="50" min="1" max="100" />
+              </label>
+              <label>TP2 close % of left
+                <input id="tr-tp2pct" type="number" value="100" min="1" max="100" />
+              </label>
+              <label class="switch-row" style="grid-column:1/-1">
+                <input type="checkbox" id="tr-money" />
+                <span>Use money management (risk about 1%, size from the stop)</span>
+              </label>
+              <label class="switch-row" style="grid-column:1/-1">
+                <input type="checkbox" id="tr-trail" checked />
+                <span>Trail TP + SL (BUY↑ / SELL↓ — lock ~99.9% peak)</span>
+              </label>
+              <label>Trail distance %
+                <input id="tr-trail-pct" type="number" value="1.2" min="0.4" max="10" step="0.1" title="Anti-hunt: keep ≥ 0.4%. Default 1.2%" />
+              </label>
+              <label class="switch-row" style="grid-column:1/-1">
+                <input type="checkbox" id="tr-mart" />
+                <span>Martingale ladder — add only on an adverse move + a fresh same-side signal</span>
+              </label>
+              <label class="fld-mart hidden">Martingale step % (adverse move per rung)
+                <input id="tr-mart-step" type="number" value="1" min="0.2" max="20" step="0.1" />
+              </label>
+              <label class="fld-mart hidden">Size × per rung (multiplier)
+                <input id="tr-mart-mult" type="number" value="2" min="1" max="4" step="0.1" />
+              </label>
+              <label class="fld-mart hidden">Max adds (extra orders)
+                <input id="tr-mart-max" type="number" value="2" min="0" max="6" step="1" />
+              </label>
+              <label class="fld-mart hidden">Total ladder risk cap % of equity
+                <input id="tr-mart-cap" type="number" value="5" min="0.5" max="50" step="0.5" />
+              </label>
+            </div>
+            <div class="row">
+              <button class="btn primary" id="tr-submit" data-i18n="place_live">Start Live Trade</button>
+              <button class="btn ghost" id="tr-paper" data-i18n="paper">Start Paper Trade (practice)</button>
+            </div>
+            <p class="tiny warn" data-i18n="trade_warn">Live needs platform API key. Paper = practice. Keep Withdrawals OFF.</p>
+            <pre id="tr-result" class="code-block"></pre>
+          </div>
+          <div class="panel">
+            <h3 data-i18n="auto_trade">Auto Trade</h3>
+            <div id="auto-status-banner" class="practice-banner" style="margin-bottom:12px; display:none; background:rgba(34,197,94,.15); border-color:rgba(34,197,94,.3);">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <strong id="auto-status-title" style="color:#22c55e">Auto Trading Active</strong>
+                <button type="button" class="btn ghost mini" id="auto-stop-btn" style="width:auto; margin:0; background:rgba(239,68,68,.2); color:#f87171; border-color:#f87171">⏹️ Stop All</button>
+              </div>
+              <p id="auto-status-desc" style="margin:4px 0 0; font-size:.85rem; color:var(--muted)">Running on platform &amp; market</p>
+            </div>
+            <h4 class="mt">Running Sessions — start / stop each</h4>
+            <div id="auto-sessions" class="chip-list"></div>
+            <h4 class="mt">New / Edit Session</h4>
+            <label class="switch-row">
+              <input type="checkbox" id="auto-strong" checked />
+              <span>Trade Strong signals</span>
+            </label>
+            <label class="switch-row">
+              <input type="checkbox" id="auto-higher-strong" />
+              <span>Trade Higher Strong signals (higher-timeframe confirmed)</span>
+            </label>
+            <label class="switch-row">
+              <input type="checkbox" id="auto-caution" />
+              <span>Trade Caution signals</span>
+            </label>
+            <p class="tiny">Choose signal grades independently. Higher Strong is created only when a Strong crypto signal agrees with the completed higher-timeframe trend.</p>
+            <label class="switch-row">
+              <input type="checkbox" id="auto-money" />
+              <span>Use money management on auto trades</span>
+            </label>
+            <p class="tiny">Off = the USDT or lots you typed. On = each auto trade risks about 1% of a $1000 practice account plus closed results. Size comes from the stop. If the exchange minimum would risk more than 1%, that trade is skipped. New autos stop after about −2% on the day.</p>
+            <label class="switch-row">
+              <input type="checkbox" id="auto-mart" />
+              <span>Martingale ladder (add only on an adverse move + a fresh same-side signal)</span>
+            </label>
+            <p class="tiny">Off by default. Each extra order needs price to move against the trade by the step %, and a fresh same-side signal to still stand. Capped by the max adds and the total ladder risk. Martingale grows risk fast — use small numbers and a hard cap.</p>
+            <label class="switch-row">
+              <input type="checkbox" id="auto-tp" checked />
+              <span>Auto Take-Profit / auto close</span>
+            </label>
+            <label class="switch-row">
+              <input type="checkbox" id="auto-trail" checked />
+              <span>Auto trail TP + SL (BUY up / SELL down)</span>
+            </label>
+            <p id="auto-hint" class="field-hint">Select platform + market — required auto fields appear.</p>
+            <div class="form-grid" id="auto-form">
+              <label>Platform
+                <select id="auto-platform"></select>
+              </label>
+              <label>Market
+                <select id="auto-market"></select>
+              </label>
+              <label>Max open<input id="auto-max" type="number" value="3" min="1" max="10" /></label>
+              <label id="auto-wrap-quote" class="fld-crypto">Spot USDT (≥11)<input id="auto-quote" type="number" value="11" min="11" /></label>
+              <label id="auto-wrap-fut-quote" class="fld-futures hidden">Futures USDT (≥1)<input id="auto-fut-quote" type="number" value="1" min="1" /></label>
+              <label id="auto-wrap-lots" class="fld-forex hidden">Forex lots<input id="auto-lots" type="number" value="0.01" min="0.01" step="0.01" /></label>
+              <label id="auto-wrap-leverage" class="fld-futures hidden">Futures Leverage
+                <select id="auto-leverage">
+                  <option value="1">1x</option>
+                  <option value="5" selected>5x</option>
+                  <option value="10">10x</option>
+                  <option value="20">20x</option>
+                  <option value="50">50x</option>
+                  <option value="125">125x</option>
+                </select>
+              </label>
+              <label id="auto-wrap-margin" class="fld-futures hidden">Margin mode
+                <select id="auto-margin">
+                  <option value="CROSSED">Cross</option>
+                  <option value="ISOLATED">Isolated</option>
+                </select>
+              </label>
+              <label>TP1 partial %<input id="auto-tp1pct" type="number" value="50" min="1" max="100" /></label>
+              <label>TP2 partial %<input id="auto-tp2pct" type="number" value="100" min="1" max="100" /></label>
+              <label>Trail % anti-hunt (TP+SL)<input id="auto-trail-pct" type="number" value="1.2" min="0.4" max="10" step="0.1" title="Was 0.05 → caused SL hunting. Use 1.0–2.0%" /></label>
+              <label class="fld-mart hidden">Martingale step %<input id="auto-mart-step" type="number" value="1" min="0.2" max="20" step="0.1" /></label>
+              <label class="fld-mart hidden">Size × per rung<input id="auto-mart-mult" type="number" value="2" min="1" max="4" step="0.1" /></label>
+              <label class="fld-mart hidden">Max adds<input id="auto-mart-max" type="number" value="2" min="0" max="6" step="1" /></label>
+              <label class="fld-mart hidden">Ladder risk cap % of equity<input id="auto-mart-cap" type="number" value="5" min="0.5" max="50" step="0.5" /></label>
+            </div>
+            <div class="row" style="gap:8px; margin-top:10px;">
+              <button class="btn primary" id="auto-save" style="flex:1">▶ Start / Save Session</button>
+              <button class="btn ghost" id="auto-stop" type="button" style="background:rgba(239,68,68,.15); border-color:rgba(239,68,68,.4); color:#f87171">⏹️ Stop All Sessions</button>
+            </div>
+            <p class="msg" id="auto-save-msg"></p>
+            <h4 class="mt">Why no trade opened — last auto scan</h4>
+            <div id="auto-diag" class="tiny" style="border:1px dashed var(--line,#3a4a5a); border-radius:8px; padding:8px 10px; color:var(--muted)">Run a scan (or turn on Auto Scan) — this box shows why each signal did or did not open a trade.</div>
+            <h4 class="mt">Open Auto Trades — platform · market · stop each</h4>
+            <div id="auto-open" class="chip-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-positions" class="view hidden">
+        <div class="panel">
+          <div class="panel-h">
+            <h3>Positions — edit TP / partial close / cancel auto</h3>
+            <div class="row" style="gap:6px">
+              <button type="button" class="btn ghost" id="pos-sync">🔄 Sync with exchange</button>
+              <button type="button" class="btn ghost" id="pos-clear-broken">🧹 Clear broken</button>
+            </div>
+          </div>
+          <p class="tiny">Open positions grouped by market (Spot / Futures / Forex). Every 15s price check. Live and Demo are kept apart. Change close price anytime. Close 25/50/75/100%.</p>
+          <div class="mode-tabs" id="pos-mode-tabs">
+            <button type="button" class="chip mode-tab active" data-postab="LIVE">🟢 Live</button>
+            <button type="button" class="chip mode-tab" data-postab="DEMO">🟡 Demo</button>
+          </div>
+          <h4 class="mt">Pending orders <span id="pos-pending-note" class="tiny" style="color:var(--muted)"></span></h4>
+          <p class="tiny">Limit orders accepted by the exchange but not filled yet. They become an open position automatically once filled.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Symbol</th><th>Mkt</th><th>Side</th><th>Limit</th>
+                  <th>Filled</th><th>Qty</th><th>Status</th><th>Platform</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="pos-pending"></tbody>
+            </table>
+          </div>
+          <h4 class="mt">Open positions</h4>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Symbol</th><th>Mkt</th><th>Entry</th><th>Last</th>
+                  <th>P/L</th><th>Left qty</th><th>TP levels / SL</th><th>Mode</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="pos-table"></tbody>
+            </table>
+          </div>
+          <h4 class="mt">Closed positions</h4>
+          <div class="stat-row" id="pos-closed-stats"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Symbol</th><th>Mkt</th><th>Entry</th><th>Exit</th>
+                  <th>P/L</th><th>Qty</th><th>Platform</th><th>Reason</th><th>Start → End</th>
+                </tr>
+              </thead>
+              <tbody id="pos-closed"></tbody>
+            </table>
+          </div>
+          <div id="pos-edit" class="owner-unlock hidden" style="z-index:90;">
+            <div class="welcome-card" style="max-width: 500px; text-align: left;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <h3 style="margin:0">Edit Position — <span id="pos-edit-sym"></span></h3>
+                <button type="button" class="btn ghost mini" id="pos-edit-close" style="width:auto; margin:0">✕ Close</button>
+              </div>
+              <input type="hidden" id="pos-edit-id" />
+              <div class="form-grid">
+                <label style="grid-column:1/-1">TP levels — price &amp; close % (add as many as you need)</label>
+                <div id="pos-tp-list" style="grid-column:1/-1"></div>
+                <button type="button" class="btn ghost mini" id="pos-tp-add" style="grid-column:1/-1; width:auto">＋ Add TP level</button>
+                <label style="grid-column:1/-1">Stop Loss<input id="pos-sl" type="number" step="any" /></label>
+                <label style="grid-column:1/-1">Trail % (anti-hunt)<input id="pos-trail-pct" type="number" min="0.4" max="10" step="0.1" value="1.2" /></label>
+                <label class="switch-row" style="grid-column:1/-1">
+                  <input type="checkbox" id="pos-autoclose" />
+                  <span>Auto Close / Auto Trade ON (Uncheck = Manual Control)</span>
+                </label>
+                <label class="switch-row" style="grid-column:1/-1">
+                  <input type="checkbox" id="pos-trail" />
+                  <span>Trailing Stop Loss ON</span>
+                </label>
+              </div>
+              <div class="row" style="margin-top: 16px; flex-wrap: wrap; gap: 6px;">
+                <button class="btn primary" id="pos-save-levels" type="button" style="flex:1">💾 Save &amp; Run</button>
+                <button class="btn ghost" id="pos-close-25" type="button">Close 25%</button>
+                <button class="btn ghost" id="pos-close-50" type="button">Close 50%</button>
+                <button class="btn primary" id="pos-close-100" type="button" style="background:#ef4444; border-color:#ef4444; color:#fff">Close 100%</button>
+              </div>
+            </div>
+          </div>
+          <div id="pos-detail" class="owner-unlock hidden" style="z-index:91;">
+            <div class="welcome-card" style="max-width: 860px; width: 96%; text-align: left;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
+                <h3 style="margin:0"><span id="pos-detail-title"></span></h3>
+                <div class="row" style="gap:6px; flex-wrap:wrap;">
+                  <button type="button" class="btn ghost mini" id="pos-detail-refresh">⟳ Refresh</button>
+                  <button type="button" class="btn ghost mini" id="pos-detail-close" style="width:auto; margin:0">✕ Close</button>
+                </div>
+              </div>
+              <canvas id="pos-detail-chart" width="820" height="300" style="width:100%; height:300px; border-radius:12px; background:#0b1620;"></canvas>
+              <p class="tiny" id="pos-detail-live" style="margin:8px 0 4px;"></p>
+              <div class="pos-info-grid" id="pos-detail-info"></div>
+              <div class="row" style="margin-top: 14px; flex-wrap: wrap; gap: 6px;">
+                <button class="btn ghost" id="pos-detail-edit" type="button">✏️ Edit levels</button>
+                <button class="btn ghost" id="pos-detail-c50" type="button">Close 50%</button>
+                <button class="btn primary" id="pos-detail-c100" type="button" style="background:#ef4444; border-color:#ef4444; color:#fff">Close 100%</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-news" class="view hidden">
+        <div class="panel">
+          <div class="panel-h">
+            <h3 data-i18n="news_title">News &amp; Tricks</h3>
+            <button type="button" class="btn ghost" id="news-refresh" data-i18n="news_refresh">Refresh news</button>
+          </div>
+          <p class="tiny" data-i18n="news_sub">Live crypto headlines + forex tips + API tricks for every platform.</p>
+          <div class="news-tabs">
+            <button type="button" class="chip news-tab active" data-news="crypto">Crypto news</button>
+            <button type="button" class="chip news-tab" data-news="forex">Forex</button>
+            <button type="button" class="chip news-tab" data-news="platforms">All platforms</button>
+          </div>
+          <div id="news-list" class="news-list"></div>
+        </div>
+      </section>
+
+      <section id="view-learn" class="view hidden">
+        <div class="learn-hero">
+          <p class="eyebrow" data-i18n="learn_eyebrow">Candles · BB · RSI · Fib · Money · Psychology · Platforms · Forex</p>
+          <h3 data-i18n="learn_title">Learning Class</h3>
+          <p id="learn-intro" class="tiny"></p>
+        </div>
+        <div class="panel mt">
+          <h3 data-i18n="learn_candles">Candle patterns — picture + meaning + what else it teaches</h3>
+          <p class="tiny learn-hint" data-i18n="learn_candles_hint">Each card: drawing · bias · how to read it · BB / RSI / Fib / risk / psychology link.</p>
+          <div id="learn-candles" class="candle-grid"></div>
+        </div>
+        <div class="panel mt">
+          <h3 data-i18n="learn_charts">Chart patterns — picture + meaning + what else</h3>
+          <p class="tiny learn-hint" data-i18n="learn_charts_hint">Bigger structure around candles. Use with Chart Lab on DEMO.</p>
+          <div id="learn-charts" class="candle-grid chart-grid"></div>
+        </div>
+        <div class="panel mt learn-module-panel">
+          <div class="learn-module-head">
+            <h3 data-i18n="learn_modules_h">Deep modules</h3>
+            <label class="tiny">Topic
+              <select id="learn-module"></select>
+            </label>
+          </div>
+          <p id="learn-mod-summary" class="learn-mod-summary tiny"></p>
+          <div id="learn-mod-list" class="learn-az learn-mod-list"></div>
+        </div>
+        <div class="grid-2 mt">
+          <div class="panel">
+            <h3 data-i18n="learn_plat_h">Platform class</h3>
+            <label>Platform
+              <select id="learn-platform"></select>
+            </label>
+            <h4 id="learn-plat-title"></h4>
+            <ol id="learn-plat-steps" class="learn-steps"></ol>
+          </div>
+          <div class="panel">
+            <h3 id="learn-fx-title">Forex A → Z</h3>
+            <div id="learn-fx-list" class="learn-az"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-journal" class="view hidden">
+        <div class="panel">
+          <h3 data-i18n="jr_real_h">Real trades — auto and manual</h3>
+          <p class="tiny" data-i18n="jr_real_p">These numbers are only trades you actually placed (auto or manual). Average profit, average loss, and the net balance.</p>
+          <div class="mode-tabs" id="jr-mode-tabs">
+            <button type="button" class="chip mode-tab active" data-jrtab="LIVE">🟢 Live</button>
+            <button type="button" class="chip mode-tab" data-jrtab="DEMO">🟡 Demo</button>
+          </div>
+          <div class="stat-row" id="jr-real-stats"></div>
+          <div id="jr-periods" class="period-board"></div>
+        </div>
+        <div class="panel signal-board mt">
+          <h3 data-i18n="sig_board">Results of trades taken on this software’s signals</h3>
+          <p class="tiny" id="sig-board-summary" data-i18n="sig_empty">No closed signal trades yet. Click a BUY or SELL row, trade it, and when that trade closes the real profit or loss shows here — separate from other trades.</p>
+          <p class="tiny" data-i18n="sig_honest">The win rate here is counted from those closed signal trades. It changes with the market. It is not a fixed 99.99%.</p>
+          <div class="stat-row" id="sig-board-stats"></div>
+          <div id="sig-board-list" class="sig-list"></div>
+        </div>
+        <div class="panel mt">
+          <h3 data-i18n="journal_h">Trade Journal (Profit / Loss history)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th><th>Symbol</th><th>Entry</th><th>Exit</th>
+                  <th>PnL %</th><th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="journal-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-signallab" class="view hidden">
+        <div class="panel">
+          <h3 data-i18n="sl_h">Every signal, traded as $10</h3>
+          <p class="tiny" data-i18n="sl_p">Each BUY or SELL the software gives is tracked as if $10 was placed. Profit and loss use that $10. Click a row to see the chart from the start and from the end.</p>
+          <div class="stat-row" id="sl-stats"></div>
+          <div id="sl-periods" class="period-board"></div>
+          <div class="sl-mkt-tabs" id="sl-mkt-tabs" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button type="button" class="btn ghost active" data-sl-market="SPOT">Spot Signal</button>
+              <button type="button" class="btn ghost" data-sl-market="FUTURES">Future Signal</button>
+              <button type="button" class="btn ghost" data-sl-market="FOREX">Forex Signal</button>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <label class="tiny" style="margin:0; color:var(--muted)">Filter date:
+                <input type="date" id="sl-date-filter" style="padding:6px 10px; border-radius:8px; border:1px solid var(--line); background:var(--bg0); color:var(--text); font-family:var(--font); font-size:.8rem;" />
+              </label>
+              <button type="button" class="btn ghost mini" id="sl-date-clear" style="width:auto; margin:0">All dates</button>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2 mt">
+          <div id="sl-markets"></div>
+          <div class="panel">
+            <h3 id="sl-chart-title" data-i18n="sl_chart_h">Chart at that time</h3>
+            <p class="tiny" id="sl-chart-meta" data-i18n="sl_click">Click a signal to open its saved chart.</p>
+            <div class="row">
+              <button type="button" class="btn ghost" id="sl-show-live" data-i18n="sl_chart_live">Live market</button>
+              <button type="button" class="btn ghost" id="sl-show-start" data-i18n="sl_chart_start">Chart at start</button>
+              <button type="button" class="btn ghost" id="sl-show-end" data-i18n="sl_chart_end">Chart at end</button>
+            </div>
+            <canvas id="sl-chart" width="640" height="280"></canvas>
+            <div id="sl-detail" class="detail"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-keys" class="view hidden">
+        <div class="keys-layout">
+          <div class="panel">
+            <h3>Platform API Keys</h3>
+            <label>Select platform
+              <select id="keys-platform"></select>
+            </label>
+            <p id="keys-platform-note" class="tiny"></p>
+            <p id="keys-status" class="msg">No keys saved</p>
+            <div class="binance-chip keys-chip hidden" id="keys-binance-chip">
+              <span class="bn-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M16.62 13.92l2.72 2.72-7.35 7.35-7.36-7.35 2.72-2.72L12 18.58l4.62-4.66zm2.72-10.04L24 8.62l-2.72 2.72L12 2.03 2.72 11.33 0 8.62l4.66-4.74L7.38 1.16 12 5.81l4.62-4.65 4.72 4.72zm-16.26 5.02l2.72 2.72-2.72 2.72L.36 11.62l2.72-2.72zM19.34 8.9l2.72 2.72-2.72 2.71-2.71-2.71L19.34 8.9zm-8.13-2.72l2.72 2.72L12 11.62 9.28 8.9 11.21 6.18z"/></svg></span>
+              <span class="bn-text">Binance API</span>
+              <span class="bn-pill bn-pill-soft">Spot · Futures</span>
+            </div>
+            <div id="binance-ip-guard" class="ip-guard hidden"></div>
+            <div id="keys-fields">
+              <label id="lab-api-key">API Key / Token<input id="api-key" type="text" autocomplete="off" /></label>
+              <label id="lab-api-secret">API Secret<input id="api-secret" type="password" autocomplete="off" /></label>
+              <label id="lab-passphrase" class="hidden">Passphrase<input id="api-passphrase" type="password" autocomplete="off" /></label>
+              <label id="lab-account" class="hidden">Account ID<input id="api-account" type="text" autocomplete="off" /></label>
+              <label id="lab-login" class="hidden"><span id="lab-login-text">MT Login</span><input id="api-login" type="text" autocomplete="off" placeholder="e.g. 51234567" /></label>
+              <label id="lab-password" class="hidden"><span id="lab-password-text">MT Password</span><input id="api-password" type="password" autocomplete="off" placeholder="Master password (investor = read-only, no live orders)" /></label>
+              <label id="lab-server" class="hidden"><span id="lab-server-text">MT Server</span><input id="api-server" type="text" autocomplete="off" placeholder="e.g. ICMarketsSC-Live" /></label>
+            </div>
+            <div id="mt5-bridge-box" class="hidden" style="border:1px dashed var(--line,#3a4a5a); border-radius:8px; padding:8px 10px; margin:8px 0">
+              <p class="tiny" id="mt5-bridge-status">MT5 bridge: checking…</p>
+              <div class="row">
+                <button type="button" class="btn ghost" id="mt5-bridge-start">Start MT5 Bridge</button>
+                <button type="button" class="btn ghost" id="mt5-bridge-stop">Stop</button>
+                <button type="button" class="btn ghost" id="mt5-bridge-check">Check</button>
+              </div>
+              <div id="mt5-setup" style="border-top:1px dashed var(--line,#3a4a5a); margin-top:8px; padding-top:8px">
+                <p class="tiny" id="mt5-setup-status">MT5 setup: checking…</p>
+                <p class="tiny" id="mt5-setup-progress"></p>
+                <div class="row">
+                  <button type="button" class="btn primary" id="mt5-setup-auto" title="Installs Python 3, the MetaTrader5 package, the MetaTrader 5 terminal and the CPE bridge EA automatically">Auto-install everything</button>
+                  <button type="button" class="btn ghost" id="mt5-setup-refresh">Re-check Setup</button>
+                  <button type="button" class="btn ghost" id="mt5-setup-ea" title="Copies CPE_Bridge.mq5 into MQL5\Experts and compiles it — works even when the Python API (IPC) is broken on new MT5 builds">Install CPE bridge EA</button>
+                  <button type="button" class="btn ghost" id="mt5-setup-pip" title="Runs: python -m pip install MetaTrader5">Install MetaTrader5 package</button>
+                  <button type="button" class="btn ghost" id="mt5-setup-python" title="Uses winget; falls back to the python.org installer">Install Python 3</button>
+                  <button type="button" class="btn ghost" id="mt5-setup-terminal" title="Downloads and silently installs the official MetaQuotes terminal">Install MetaTrader 5</button>
+                </div>
+                <p class="tiny" id="mt5-setup-hint">MT5 live orders need: Python 3 → the bridge → MetaTrader 5 terminal. Newer MT5 builds (6230+) break the official Python API, so the app also ships a <strong>CPE_Bridge</strong> EA that trades through local files — click <strong>Install CPE bridge EA</strong>, then attach CPE_Bridge to any chart in MT5 and turn on <strong>Algo Trading</strong>. Use the <em>master</em> password — an investor (read-only) password cannot place trades.</p>
+              </div>
+              <div id="mt4-setup" class="hidden" style="border-top:1px dashed var(--line,#3a4a5a); margin-top:8px; padding-top:8px">
+                <p class="tiny" id="mt4-setup-status">MT4 setup: checking…</p>
+                <p class="tiny" id="mt4-setup-progress"></p>
+                <div class="row">
+                  <button type="button" class="btn primary" id="mt4-setup-auto" title="Installs Python 3, the MetaTrader 4 terminal and the CPE bridge EA automatically">Auto-install everything</button>
+                  <button type="button" class="btn ghost" id="mt4-setup-refresh">Re-check Setup</button>
+                  <button type="button" class="btn ghost" id="mt4-setup-ea" title="Copies CPE_Bridge.mq4 into MQL4\Experts and compiles it">Install CPE bridge EA</button>
+                  <button type="button" class="btn ghost" id="mt4-setup-python" title="Uses winget; falls back to the python.org installer">Install Python 3</button>
+                  <button type="button" class="btn ghost" id="mt4-setup-terminal" title="Downloads and silently installs the official MetaQuotes MT4 terminal">Install MetaTrader 4</button>
+                </div>
+                <p class="tiny" id="mt4-setup-hint">MT4 live orders need three things on this PC: Python 3 (to run the bridge) → the MetaTrader 4 terminal → the <code>CPE_Bridge</code> expert advisor. <strong>Auto-install everything</strong> installs all three silently — no manual downloads. MT4 cannot log in for you: after the install, <strong>attach CPE_Bridge to any chart</strong> (Navigator → Expert Advisors) and click <strong>AutoTrading</strong>. Use the <em>master</em> password — an investor (read-only) password cannot place trades.</p>
+              </div>
+            </div>
+            <div class="row">
+              <button class="btn primary" id="save-keys" data-i18n="save_keys">Save Keys</button>
+              <button class="btn ghost" id="clear-keys" data-i18n="clear">Clear</button>
+              <button class="btn ghost" id="test-account" data-i18n="test_account">Test Account</button>
+              <button class="btn ghost" id="get-my-ip" title="Fetch your public IP to paste into the exchange IP whitelist">Get My IP</button>
+            </div>
+            <p id="my-ip-box" class="tiny"></p>
+            <pre id="account-box" class="code-block"></pre>
+          </div>
+          <div class="panel api-guide-panel">
+            <h3 id="api-guide-title">How to connect this platform</h3>
+            <div class="api-guide" id="api-guide-body"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-help" class="view hidden">
+        <div class="panel help-panel" data-i18n-html="help_html"></div>
+        <div class="panel mt">
+          <h3 id="help-plat-h" data-i18n="help_plat_h">Platform API connect (same as API Keys page)</h3>
+          <label><span id="help-plat-sel" data-i18n="help_plat_sel">Select platform</span>
+            <select id="help-platform"></select>
+          </label>
+          <h4 id="help-api-title"></h4>
+          <div class="api-guide" id="help-api-body"></div>
+        </div>
+      </section>
+
+      <section id="view-license" class="view hidden">
+        <div class="panel narrow">
+          <h3 data-i18n="nav_license">License</h3>
+          <p id="lic-status-text"></p>
+          <p>Machine ID: <code id="lic-machine"></code></p>
+          <div class="owner-card">
+            <strong>Anurasiri Wickramanayake</strong>
+            <p>WhatsApp 0774940944 · Anurasiri123@gmail.com</p>
+          </div>
+
+          <div class="panel mt" id="lic-activate-box">
+            <h4 data-i18n="lic_activate_h">Activate / renew license</h4>
+            <p class="tiny" id="lic-activate-note"></p>
+            <label><span data-i18n="license_key">License Key</span>
+              <input id="lic-key-input" type="text" placeholder="CPE… / CPE3… / CPEL…" autocomplete="off" />
+            </label>
+            <button type="button" class="btn primary" id="lic-key-btn" data-i18n="activate">Activate Software</button>
+            <p class="msg" id="lic-key-msg"></p>
+          </div>
+
+          <div class="panel mt ref-panel" id="referral-panel">
+            <h4 data-i18n="ref_title">Referral</h4>
+            <p class="tiny" data-i18n="ref_rules">Share your code with a <b>new person on a different network</b>. Same Wi‑Fi/lab = not counted. First 10 = +1 day; then +0.5. Hard cap <b>365 days</b> — after that referrals do not extend activation. Lifetime users get a <b>claim slip</b> (Owner issues the real key). Only owner keys activate.</p>
+            <p>My code: <code id="ref-my-code">…</code>
+              <button type="button" class="btn ghost" id="ref-copy-code">Copy</button>
+            </p>
+            <p class="tiny" id="ref-stats-line"></p>
+            <label><span data-i18n="ref_apply_label">Apply a friend’s code (this PC · once)</span>
+              <input id="ref-apply-code" type="text" placeholder="CPE-R-…" autocomplete="off" />
+            </label>
+            <label class="switch-row">
+              <input type="checkbox" id="ref-human" />
+              <span data-i18n="ref_human_confirm">I am a real person (not a farm / bot / same-lab PC)</span>
+            </label>
+            <button type="button" class="btn ghost" id="ref-apply-btn" data-i18n="ref_apply_btn">Apply referral</button>
+            <p class="msg" id="ref-apply-msg"></p>
+
+            <label><span data-i18n="ref_proof_out">Proof for your referrer (send this)</span>
+              <textarea id="ref-proof-out" rows="2" readonly placeholder="Appears after trial start / key activate"></textarea>
+            </label>
+            <button type="button" class="btn ghost" id="ref-copy-proof">Copy proof</button>
+
+            <label><span data-i18n="ref_redeem_label">Redeem proof (you are the referrer)</span>
+              <textarea id="ref-redeem-in" rows="2" placeholder="Paste CPE-P.… proof from friend"></textarea>
+            </label>
+            <button type="button" class="btn primary" id="ref-redeem-btn" data-i18n="ref_redeem_btn">Redeem referral proof</button>
+            <p class="msg" id="ref-redeem-msg"></p>
+
+            <h4 data-i18n="ref_keys_h">My reward keys (Lifetime)</h4>
+            <div id="ref-reward-keys" class="ref-reward-keys tiny">—</div>
+            <div id="ref-list" class="ref-list tiny"></div>
+          </div>
+
+          <div class="pay-methods mt" id="lic-pay-methods">
+            <h4 data-i18n="lic_pay_h">License payment</h4>
+            <p id="lic-lifetime-note" class="tiny">3-Month USD 15 · Lifetime USD 100 (this Machine ID).</p>
+            <div class="pay-card"><span>🏦 Bank</span><p id="lic-pay-bank">WhatsApp for bank account details</p></div>
+            <div class="pay-card"><span>₿ Binance</span><p id="lic-pay-binance">USDT / Binance Pay — WhatsApp for UID</p></div>
+            <div class="pay-card"><span>🅿️ PayPal</span><p id="lic-pay-paypal">Anurasiri123@gmail.com</p></div>
+          </div>
+          <div class="panel mt" id="public-faq-box">
+            <h4>Common questions</h4>
+            <div id="public-faq-list" class="faq-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-owner-tools" class="view hidden">
+        <p class="tiny warn" id="owner-lock-note">Owner only — customers never see this menu or activity log.</p>
+        <div class="grid-2">
+          <div class="panel">
+            <h3 data-i18n="owner_h">Owner License Generator</h3>
+            <p class="tiny" data-i18n="owner_p">Paste customer Machine ID to create a key</p>
+            <div class="owner-key-guide">
+              <p class="tiny"><strong>1) මාස 3 (MONTH3)</strong> — ගෙවීම USD 15 · දින ~90 · ඒ PC එකට විතරයි. Plan = <b>3-Month</b>.</p>
+              <p class="tiny"><strong>2) Lifetime (LIFETIME)</strong> — ගෙවීම USD 100 · ඒ PC එකට සදහට · Plan = <b>Lifetime</b>.</p>
+              <p class="tiny"><strong>3) Referral timed (TIMED)</strong> — Lifetime referrerගේ <b>claim slip</b> එකට අනුව දින 1–365 custom key. Plan = <b>Timed days</b> + days box. (හෝ පහළ claim slip form භාවිතා කරන්න.)</p>
+            </div>
+            <label data-i18n="owner_pass">Owner Password</label>
+            <input id="owner-pass" type="password" autocomplete="off" />
+            <label data-i18n="customer_mid">Customer Machine ID</label>
+            <input id="owner-mid" type="text" />
+            <label>License plan (තෝරන්න)
+              <select id="owner-plan">
+                <option value="MONTH3">① මාස 3 — MONTH3 (USD 15 · 90 days)</option>
+                <option value="LIFETIME" selected>② Lifetime — LIFETIME (USD 100 · forever)</option>
+                <option value="TIMED">③ Referral timed — TIMED (custom days · claim reward)</option>
+              </select>
+            </label>
+            <label id="owner-timed-wrap">③ Timed days (1–365) — Referral / custom only
+              <input id="owner-timed-days" type="number" min="1" max="365" value="30" />
+            </label>
+            <p class="tiny" id="owner-plan-hint">Lifetime = මේ Machine ID එකට සදහට. මාස 3 = දින 90. Timed = referral claim අනුව දින ගණන.</p>
+            <button class="btn primary" id="gen-key-btn" data-i18n="gen_key">Generate License Key</button>
+            <button class="btn ghost" id="owner-hide-btn" type="button">Hide Owner Tools</button>
+            <p class="msg" id="gen-key-out"></p>
+          </div>
+          <div class="panel">
+            <h3>Activity log (this PC · admin only)</h3>
+            <p class="tiny">Trades, trial, license, chat — visible only after owner unlock.</p>
+            <div id="owner-activity" class="activity-log"></div>
+            <button type="button" class="btn ghost" id="owner-refresh-activity">Refresh activity</button>
+          </div>
+        </div>
+        <div class="panel mt" id="owner-referral-admin">
+          <h3>Referral admin (owner only)</h3>
+          <p class="tiny">Who referred whom, counts, network flags. Paste customer proofs to log. Full machine hashes visible here only.</p>
+          <label>Owner password
+            <input id="owner-ref-pass" type="password" autocomplete="off" />
+          </label>
+          <div class="row">
+            <button type="button" class="btn ghost" id="owner-ref-load">Load referral ledger</button>
+          </div>
+          <label>Import proof into ledger
+            <textarea id="owner-ref-proof" rows="2" placeholder="CPE-P.…"></textarea>
+          </label>
+          <button type="button" class="btn primary" id="owner-ref-import">Import proof</button>
+          <label>Issue real key from claim slip (Lifetime referral)
+            <textarea id="owner-claim-slip" rows="2" placeholder="CPE-CLAIM.…"></textarea>
+          </label>
+          <label>Buyer Machine ID
+            <input id="owner-claim-mid" type="text" />
+          </label>
+          <button type="button" class="btn primary" id="owner-claim-issue">Issue owner key from claim</button>
+          <p class="msg" id="owner-ref-msg"></p>
+          <h4>Security alerts (forged / hack attempts)</h4>
+          <div id="owner-sec-alerts" class="activity-log"></div>
+          <div id="owner-ref-ledger" class="activity-log"></div>
+        </div>
+        <div class="grid-2 mt">
+          <div class="panel">
+            <h3>Live Help inbox</h3>
+            <div id="owner-chat-inbox" class="chat-messages owner-inbox"></div>
+            <button type="button" class="btn ghost" id="owner-refresh-chat">Refresh inbox</button>
+          </div>
+          <div class="panel">
+            <h3>Common Q &amp; A (edit · publish to users)</h3>
+            <p class="tiny">Type answers for customers. Also set payment accounts &amp; update notice.</p>
+            <label>Owner password (to load/save)
+              <input id="owner-cfg-pass" type="password" autocomplete="off" />
+            </label>
+            <div class="row">
+              <button type="button" class="btn ghost" id="owner-load-cfg">Load config</button>
+              <button type="button" class="btn primary" id="owner-save-cfg">Save config</button>
+            </div>
+            <p class="msg" id="owner-cfg-msg"></p>
+            <div class="owner-price-box">
+              <h4>License prices (Owner only)</h4>
+              <p class="tiny">Change here → Buy License, Trial, License page, warnings — all update. Forex / crypto users see the same USD prices.</p>
+              <label>3-Month price USD<input id="owner-price-m3" type="number" value="15" min="1" step="1" /></label>
+              <label>Lifetime price USD<input id="owner-price" type="number" value="100" min="1" step="1" /></label>
+              <label>3-Month label<input id="owner-month3-label" type="text" placeholder="3-month license" /></label>
+              <label>Lifetime label<input id="owner-lifetime-label" type="text" /></label>
+            </div>
+            <label>Bank / account details<textarea id="owner-pay-bank" rows="2"></textarea></label>
+            <label>Binance UID / pay<textarea id="owner-pay-binance" rows="2"></textarea></label>
+            <label>PayPal<textarea id="owner-pay-paypal" rows="2"></textarea></label>
+            <label>FAQ (one per line: Question || Answer)
+              <textarea id="owner-faq" rows="6" placeholder="How long is trial? || 7 days per PC"></textarea>
+            </label>
+            <label class="switch-row">
+              <input type="checkbox" id="owner-update-on" />
+              <span>Show update banner to users</span>
+            </label>
+            <label>Update version<input id="owner-update-ver" type="text" placeholder="1.1.0" /></label>
+            <label>Update title<input id="owner-update-title" type="text" /></label>
+            <label>Update details (how to update)
+              <textarea id="owner-update-body" rows="3" placeholder="Download new installer from WhatsApp / replace folder / restart app"></textarea>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Owner unlock overlay (not in nav) -->
+      <div id="owner-unlock" class="owner-unlock hidden">
+        <div class="owner-unlock-box">
+          <h3>Owner Access</h3>
+          <p class="tiny">Anurasiri Wickramanayake only</p>
+          <label>Owner Password</label>
+          <input id="owner-unlock-pass" type="password" autocomplete="off" />
+          <div class="row">
+            <button class="btn primary" id="owner-unlock-btn" type="button">Unlock</button>
+            <button class="btn ghost" id="owner-unlock-cancel" type="button">Cancel</button>
+          </div>
+          <p class="msg" id="owner-unlock-msg"></p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <button type="button" id="fab-livehelp" class="fab-livehelp hidden" title="Live Help">
+    <span class="fab-pulse"></span>
+    <span class="fab-ico">💬</span>
+    <span class="fab-label">Live Help</span>
+  </button>
+
+  <div id="chart-popup" class="chart-popup hidden" role="dialog" aria-modal="true">
+    <div class="chart-popup-card">
+      <div class="chart-popup-head">
+        <div>
+          <p class="eyebrow" id="chart-popup-eyebrow">Chart</p>
+          <h3 id="chart-popup-title">Pair</h3>
+        </div>
+        <button type="button" class="btn ghost" id="chart-popup-close" aria-label="Close">✕ Close</button>
+      </div>
+      <div class="chart-popup-tools">
+        <span class="tiny chart-popup-hint">Projected path — green = up (long), red = down (short). Scroll the chart to zoom, double-click to reset.</span>
+        <div class="chart-popup-zoombtns">
+          <select id="chart-popup-interval" class="chart-popup-interval" title="Chart timeframe">
+            <option value="5m">5m</option>
+            <option value="15m">15m</option>
+            <option value="30m">30m</option>
+            <option value="1h">1H</option>
+            <option value="4h">4H</option>
+            <option value="1d">1D</option>
+            <option value="1M">1 Month</option>
+            <option value="1w">1W</option>
+          </select>
+          <button type="button" class="btn ghost mini" id="chart-popup-zoom-out" title="Zoom out">−</button>
+          <button type="button" class="btn ghost mini" id="chart-popup-zoom-in" title="Zoom in">＋</button>
+          <button type="button" class="btn ghost mini" id="chart-popup-zoom-reset" title="Reset zoom">⟲</button>
+          <button type="button" class="btn ghost mini" id="chart-popup-replay" title="Replay the projected path">▶ Replay</button>
+          <button type="button" class="btn ghost mini active" id="chart-popup-targets" title="Show or hide the signal path — entry → TP1 → TP2">Signal targets</button>
+          <button type="button" class="btn ghost mini active" id="chart-popup-forecast" title="Show or hide the 3-month outlook">3M forecast</button>
+          <button type="button" class="btn ghost mini" id="chart-popup-shot" data-i18n="save_screenshot" title="Save a PNG screenshot of this chart">⤓ Save image</button>
+        </div>
+      </div>
+      <canvas id="chart-popup-canvas" width="900" height="360"></canvas>
+      <div id="chart-popup-detail" class="detail chart-popup-detail"></div>
+      <div class="row chart-popup-actions">
+        <button type="button" class="btn primary" id="chart-popup-trade">Send to Trade Now</button>
+        <button type="button" class="btn ghost" id="chart-popup-close-2">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="sl-popup" class="chart-popup hidden" role="dialog" aria-modal="true">
+    <div class="chart-popup-card">
+      <div class="chart-popup-head">
+        <div>
+          <p class="eyebrow">Closed signal</p>
+          <h3 id="sl-pop-title">Pair</h3>
+        </div>
+        <button type="button" class="btn ghost" id="sl-pop-close">✕ Close</button>
+      </div>
+      <p class="tiny">Chart at start</p>
+      <canvas id="sl-pop-start" width="900" height="280"></canvas>
+      <p class="tiny">Chart at end</p>
+      <canvas id="sl-pop-end" width="900" height="280"></canvas>
+      <div id="sl-pop-detail" class="detail"></div>
+    </div>
+  </div>
+
+  <div id="tour-overlay" class="tour-overlay hidden">
+    <div class="tour-card">
+      <p class="eyebrow">CPE Trade Pro · Quick Tour</p>
+      <div class="tour-step-num" id="tour-step-num">1 / 7</div>
+      <h3 id="tour-title">Welcome</h3>
+      <p id="tour-body" class="tour-body"></p>
+      <div class="tour-dots" id="tour-dots"></div>
+      <div class="row tour-actions">
+        <button type="button" class="btn ghost" id="tour-skip" data-i18n="tour_skip">Skip</button>
+        <button type="button" class="btn ghost" id="tour-prev">Back</button>
+        <button type="button" class="btn primary" id="tour-next" data-i18n="tour_next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="trade-guide-overlay" class="owner-unlock hidden" style="z-index:90;">
+    <div class="welcome-card" style="max-width: 620px;">
+      <div class="welcome-brand">
+        <div class="welcome-logo">💡</div>
+        <p class="welcome-eyebrow">CPE Trade Pro · Best Practices &amp; Safety</p>
+        <h2>Trading Guide &amp; Safety Rules</h2>
+      </div>
+      <div class="api-guide" style="max-height: 52vh; text-align: left; margin: 14px 0;">
+        <h4 style="color:var(--accent)">1. 🧪 Test in DEMO Mode First</h4>
+        <p>Run Auto Trading or Manual Trading in <strong>DEMO</strong> mode for 2–3 days. Observe win rate, strategy execution, and profit results risk-free before switching to LIVE.</p>
+
+        <h4 style="color:var(--accent)">2. 🛡️ Risk Management &amp; Multi-Platform</h4>
+        <p><strong>Spot:</strong> Set min quote $11–$20.<br/>
+        <strong>Futures:</strong> Keep leverage low at 3x–5x to avoid liquidation risk. Set Max Orders to 2–3.<br/>
+        <strong>Supported Platforms:</strong> Binance, Bybit, OKX, KuCoin, Bitget, Gate.io, MEXC, Kraken, Coinbase, OANDA Forex.</p>
+
+        <h4 style="color:var(--accent)">3. 🔒 All Platforms API Key Security</h4>
+        <p>When creating API Keys on any exchange (Binance, Bybit, OKX, KuCoin, Bitget, Gate.io, MEXC, Kraken, Coinbase, or OANDA Forex): Enable <strong>Reading</strong> and <strong>Spot / Futures / Forex Trading</strong> permissions. <strong>NEVER enable Withdrawals.</strong> Your funds remain 100% secure in your account.</p>
+
+        <h4 style="color:var(--accent)">4. 📊 Auto Trading Strategy</h4>
+        <p>Trades enter only when multiple indicators confirm: <strong>Bollinger Bands Lower touch + RSI Oversold + Golden Cross / MACD confirmation</strong> with auto TP1, TP2, and Trailing Stop Loss.</p>
+      </div>
+      <div class="row" style="justify-content: space-between; align-items:center;">
+        <label class="switch-row tiny" style="margin:0">
+          <input type="checkbox" id="tg-dont-show" />
+          <span>Don't show automatically again</span>
+        </label>
+        <button type="button" class="btn primary" id="tg-agree-btn" style="width:auto; margin:0">I Understand &amp; Start Trading</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="cpe-engine.js"></script>
+
+  <script src="cpe-mobile.js"></script>
+
+  <script src="i18n.js"></script>
+  <script src="i18nPacks.js"></script>
+  <script src="i18nPacksMore.js"></script>
+  <script src="i18nPacksAsia.js"></script>
+  <script src="platformGuides.js"></script>
+  <script src="platformGuidesLangs.js"></script>
+  <script src="learningData.js"></script>
+  <script src="learningDataLangs.js"></script>
+  <script src="chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

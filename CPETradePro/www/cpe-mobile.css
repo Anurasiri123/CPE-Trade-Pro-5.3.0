@@ -1,0 +1,143 @@
+/* CPE Trade Pro — Android mobile layout tweaks.
+   Desktop markup is reused untouched; the sidebar becomes a slide-in drawer
+   and dense toolbars are allowed to scroll horizontally on a phone. */
+
+html, body {
+  height: 100%;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* --------------------------------------------------------- notifications */
+
+/* Toasts rise from the bottom so they never sit on top of the header. */
+.toast-stack {
+  top: auto;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+}
+
+/* ------------------------------------------------------------- hamburger */
+
+#cpe-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  margin-right: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--bg-panel-2);
+  color: var(--text);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#cpe-menu-btn:active { transform: scale(.96); }
+
+#cpe-drawer-scrim {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .55);
+  z-index: 55;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+#cpe-drawer-scrim.show {
+  display: block;
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------- phone view */
+
+@media (max-width: 900px) {
+  #cpe-menu-btn { display: inline-flex; }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(84vw, 310px);
+    max-width: 310px;
+    z-index: 60;
+    transform: translateX(-102%);
+    transition: transform .22s ease;
+    box-shadow: 0 0 40px rgba(0, 0, 0, .5);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: calc(18px + env(safe-area-inset-bottom));
+  }
+
+  .sidebar.open { transform: translateX(0); }
+
+  .main {
+    width: 100%;
+    min-width: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom));
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: calc(6px + env(safe-area-inset-top));
+  }
+
+  .topbar h2 { font-size: 1.2rem; }
+  .topbar p { font-size: .78rem; }
+
+  .top-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* Wide tables and tool rows scroll instead of squashing */
+  .main table,
+  .main .toolbar,
+  .main .cards,
+  .main .grid,
+  .main .row {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .main input,
+  .main select,
+  .main textarea,
+  .main button {
+    font-size: 16px; /* stops Android zoom-on-focus */
+  }
+
+  .gate { padding: 12px; }
+  .gate-panel { padding: 26px 20px; border-radius: 18px; }
+}
+
+@media (max-width: 520px) {
+  .main { padding-left: 8px; padding-right: 8px; }
+  .topbar h2 { font-size: 1.05rem; }
+  .mode-switch { flex: 1 1 auto; }
+}
+
+/* Chart canvases should never overflow the viewport */
+.main canvas {
+  max-width: 100%;
+  height: auto;
+}

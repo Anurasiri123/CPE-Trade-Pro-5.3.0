@@ -1,0 +1,172 @@
+================================================================
+  CPE TRADE PRO  -  iPhone app eka MAC ekak NATHUWA hadana vidiha
+  (Build the iPhone app in the cloud - no Mac needed)
+================================================================
+
+MOKADA MEKA ONEE / Why
+  Apple gee niyamaya anuwa iPhone app ekak build karanna macOS + Xcode
+  onee. Eth oyage laga Mac ekak nethnam, GitHub gee FREE "cloud Mac"
+  runner ekaken build eka karanawa. Build eka iwara una passe, oyage
+  Windows PC eken Sideloadly eken iPhone ekata danna puluwan.
+
+  Meka karanne:
+     oyage Windows PC  ->  GitHub (cloud Mac)  ->  .ipa file
+     .ipa file         ->  Sideloadly (Windows)  ->  iPhone
+
+
+ONEE KARANA DEVAL / What you need
+  1. GitHub account ekak (nikanma free)   - https://github.com
+  2. Apple ID ekak (nikanma free)         - https://appleid.apple.com
+  3. Windows PC ekak + USB (Lightning / USB-C) cable ekak
+  4. iPhone ekak
+  5. Sideloadly + iTunes (Windows ekata)  - step 4 eke thiyenawa
+
+  Kalaya: GitHub build eka ~5-8 min. Sideloadly install eka ~5 min.
+
+
+----------------------------------------------------------------
+STEP 1 - me "ioc" folder eka GitHub ekakata danna
+----------------------------------------------------------------
+  PowerShell / Terminal eka me ioc folder eke open karala:
+
+      git init
+      git add .
+      git commit -m "CPE Trade Pro iOS"
+      git branch -M main
+      git remote add origin https://github.com/<oyage-nama>/cpe-ios.git
+      git push -u origin main
+
+  * Repository eka "Private" karanna.
+  * Password ahaddi GitHub Personal Access Token ekak use karanna
+    (GitHub -> Settings -> Developer settings -> Personal access tokens).
+
+
+----------------------------------------------------------------
+STEP 2 - build workflow file eka hadanna
+----------------------------------------------------------------
+  GitHub repo eke: "Add file" -> "Create new file"
+
+  File nama eka hariyatama meka venna onee:
+      .github/workflows/build-ios.yml
+
+  Pahala code eka copy karala, e file ekata paste karala commit karanna:
+
+------------------------------------------------------------------
+name: Build iOS app (unsigned)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+jobs:
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build app (no signing)
+        run: |
+          xcodebuild \
+            -project CPETradePro.xcodeproj \
+            -scheme CPETradePro \
+            -sdk iphoneos \
+            -configuration Release \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
+
+      - name: Pack into a .ipa
+        run: |
+          mkdir -p Payload
+          cp -R build/Build/Products/Release-iphoneos/*.app Payload/
+          zip -qry CPETradePro-unsigned.ipa Payload
+
+      - name: Upload the .ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: CPETradePro-ipa
+          path: CPETradePro-unsigned.ipa
+          if-no-files-found: error
+------------------------------------------------------------------
+
+  "True" kiyala commit karanna. (Commit karana gaman build eka
+  thamanta run wenawa - step 3 eka balanna.)
+
+
+----------------------------------------------------------------
+STEP 3 - build eka run karanna + .ipa eka ganna
+----------------------------------------------------------------
+  1. Repo eke "Actions" tab eka ovabanna.
+  2. Wam paththe "Build iOS app (unsigned)" eka thoranna.
+  3. "Run workflow" (green button) -> "Run workflow" eka ovabanna.
+     (step 2 eken thamanta run wela nam meka karanna onee ne.)
+  4. 5 - 8 min inna. Kalupaata tick ekak (green) awoth build eka OK.
+  5. E run eka open karala, pahala "Artifacts" eken
+     "CPETradePro-ipa" eka download karanna.
+  6. Zip eka unzip karanna -> CPETradePro-unsigned.ipa
+
+
+----------------------------------------------------------------
+STEP 4 - .ipa eka iPhone ekata danna (Windows eken)
+----------------------------------------------------------------
+  GitHub eken enne SIGN NOKARAPU build ekak pamanai. Sideloadly eka
+  oyage Apple ID ekakin sign karala phone ekata danna onee.
+
+  1. https://sideloadly.io eken Sideloadly eka install karanna.
+  2. iTunes eka https://www.apple.com/itunes/ eken install karanna.
+     (Microsoft Store eke version eka Sideloadly ekata wada karanne ne.)
+  3. iPhone eka USB cable eken Windows PC ekata connect karanna.
+     Phone eke "Trust This Computer" eka ovabanna.
+  4. Sideloadly open karanna:
+        - upare iPhone eka thoranna
+        - .ipa eka drag & drop karanna (CPETradePro-unsigned.ipa)
+        - Apple ID eka dala "Start" ovabanna
+  5. Phone eke Settings -> General -> VPN & Device Management ->
+     oyage Apple ID eka -> "Trust" ovabanna.
+
+  Iwarai - phone eke "CPE Trade Pro" icon eka penenna onee.
+
+
+----------------------------------------------------------------
+WADAGATH DEVAL / Important
+----------------------------------------------------------------
+  * Sideloadly ekath ekka "7 days" limit
+      Free Apple ID ekak nam app eka days 7k pamanai wada karanawa.
+      Eeta passe ayeth Sideloadly eken danna onee.
+      (Ee 7 dina kalaya athule app 3k pamanai danenna puluwan.)
+
+  * App Store / TestFlight
+      Ewata Apple Developer account ekak onee (USD 99 / year).
+      Nikan personal use ekakata free Apple ID ekak athi.
+
+  * GitHub free plan
+      Private repo ekakath macOS build minutes tikak denawa
+      (masakata ~200 min vitara). Me build ekakata ~6 min pamanai.
+
+  * Meka oyage phone ekata witharai
+      Wena kenekuta denna onee nam, e kenage Apple ID ekenuth
+      ayeth sideload karanna onee.
+
+  * MT5 / MT4 live trading
+      Windows walata witharai. iPhone eke signals, charts, journal,
+      analysis hamaama wada karanawa.
+
+  * Build eka fail wunoth
+      Actions -> e run eka -> "Build app (no signing)" step eke
+      kalupaata text eka balanna - error eka ehe thiyenawa.
+
+  * White screen ekak nam
+      CPETradePro/www/index.html + app.js, styles.css thiyenawada
+      balanna. E files "tools/build-ios-project.js" eken auto
+      generate wela thiyenawa (ayeth hadanna onee nam eka run karanna).
+
+
+================================================================
+  Support / sahaayata : WhatsApp 0774940944
+================================================================
