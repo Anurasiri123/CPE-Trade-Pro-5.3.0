@@ -1,0 +1,144 @@
+================================================================
+  CPE TRADE PRO - iPhone App Install Guide (Customer)
+  CPE Trade Pro - iPhone එකට App එක දාගන්න ආකාරය
+================================================================
+
+  මේ guide එක ඔයාගේ customers ලට දෙන්න.
+  (Give this guide to your customers.)
+
+
+WHAT YOU WILL GET / ඔයාට ලැබෙන්නේ මොකක්ද?
+  කොහොම හරි .ipa file එකක් (CPE-Trade-Pro-unsigned.ipa).
+  මේක iPhone එකට දාගන්න Sideloadly නැත්තම් AltStore එකක් ඕන.
+
+  You will receive a .ipa file. To put it on an iPhone you
+  need Sideloadly (or AltStore).
+
+
+----------------------------------------------------------------
+STEP 1 - INSTALL SIDELOADY + ITUNES
+----------------------------------------------------------------
+  EN:
+    1. Go to   https://sideloadly.io
+    2. Download and install Sideloadly (Windows or Mac)
+    3. Also install iTunes (NOT the Microsoft Store version):
+         https://www.apple.com/itunes/
+       The Microsoft Store iTunes does NOT work with Sideloadly.
+
+  SI:
+    1. https://sideloadly.io ගිහින් Sideloadly download + install
+    2. iTunes එකත් install කරන්න (Microsoft Store version එක නෙවෙයි):
+         https://www.apple.com/itunes/
+       Microsoft Store iTunes එක Sideloadly එකට වැඩ කරන්නේ නැහැ.
+
+
+----------------------------------------------------------------
+STEP 2 - CONNECT THE IPHONE
+----------------------------------------------------------------
+  EN:
+    1. Connect the iPhone to the computer with a USB cable
+       (Lightning or USB-C).
+    2. On the iPhone: tap "Trust This Computer" and enter the
+       passcode if asked.
+
+  SI:
+    1. iPhone එක USB cable එකෙන් computer එකට connect කරන්න
+       (Lightning හෝ USB-C).
+    2. Phone එකේ "Trust This Computer" කියලා එනවා නම් tap කරලා
+       passcode එක දාන්න.
+
+
+----------------------------------------------------------------
+STEP 3 - LOAD THE .ipa INTO SIDELOADLY
+----------------------------------------------------------------
+  EN:
+    1. Open Sideloadly.
+    2. At the top, make sure your iPhone is selected.
+    3. Drag-and-drop the .ipa file into Sideloadly
+       (or click the icon and browse for it).
+    4. In the "Apple account" box, type your Apple ID email.
+       (A normal free Apple ID is OK.)
+    5. Click  "Start".
+    6. Enter your Apple ID password (and the 6-digit code if
+       two-factor is on).
+    7. Wait until it says "Done" / "Completed".
+
+  SI:
+    1. Sideloadly open කරන්න.
+    2. උඩ ඔයාගේ iPhone එක select වෙලා තියෙනවද බලන්න.
+    3. .ipa file එක Sideloadly එකට drag-and-drop කරන්න
+       (නැත්නම් icon එක click කරලා browse කරන්න).
+    4. "Apple account" box එකට ඔයාගේ Apple ID email එක දාන්න.
+       (සාමාන්‍ය free Apple ID එකක් විතරයි ඕන.)
+    5. "Start" click කරන්න.
+    6. Apple ID password එක දාන්න (two-factor on නම් 6-digit code එකත්).
+    7. "Done" / "Completed" කියලා එනකම් ඉන්න.
+
+
+----------------------------------------------------------------
+STEP 4 - TRUST THE APP ON THE IPHONE
+----------------------------------------------------------------
+  EN:
+    1. On the iPhone: open  Settings
+    2. General  ->  VPN & Device Management
+    3. Tap your Apple ID
+    4. Tap  "Trust <your Apple ID>"
+    5. Tap  "Trust"  again to confirm.
+
+    Now open the "CPE Trade Pro" app from the home screen.
+
+  SI:
+    1. iPhone එකේ Settings open කරන්න
+    2. General  ->  VPN & Device Management
+    3. ඔයාගේ Apple ID එක tap කරන්න
+    4. "Trust <your Apple ID>" tap කරන්න
+    5. තව වරක් "Trust" tap කරලා confirm කරන්න.
+
+    දැන් home screen එකේ "CPE Trade Pro" app එක open කරන්න.
+
+
+----------------------------------------------------------------
+IMPORTANT - 7 DAY LIMIT
+----------------------------------------------------------------
+  EN:
+  - With a FREE Apple ID, the app works for 7 DAYS.
+  - After 7 days it stops opening.
+  - To fix it, plug the phone back into the computer, open
+    Sideloadly and do the same steps again (it takes 1 minute).
+  - After 1 year of repeated signing, Apple may allow it for
+    longer - but usually you must re-sign every 7 days.
+  - This is an Apple rule for free accounts, not a bug.
+
+  SI:
+  - FREE Apple ID එකකින් app එක දින 7ක් විතරයි වැඩ කරන්නේ.
+  - 7 දිනයි පස්සේ app එක විවෘත නොවෙනවා.
+  - ඒක අලුත් කරන්න: phone එක computer එකට connect කරලා
+    Sideloadly එකෙන් ආයෙත් ඒ විදිහටම කරන්න (1 මිනිත්තුවක්).
+  - මේක free accounts වලට Apple ගේ නියමයක්, වැරැද්දක් නෙවෙයි.
+
+
+----------------------------------------------------------------
+TROUBLESHOOT / ප්‍රශ්න තියෙනවා නම්
+----------------------------------------------------------------
+  * "Device not detected"
+      -> Use the original USB cable. Reinstall iTunes.
+         Try a different USB port. Unlock the phone.
+
+  * "Invalid certificate" / app opens for 1 sec and closes
+      -> The 7-day limit passed. Re-sideload with Sideloadly.
+
+  * App opens but shows a white screen
+      -> Close and reopen. If still white, restart the phone.
+
+  * Sideloadly says "Apple ID verification failed"
+      -> Use the correct Apple ID + password. Turn on two-factor
+         and enter the 6-digit code when Sideloadly asks.
+
+  * Customer wants no 7-day limit
+      -> They need an Apple Developer account (USD 99 / year),
+         or the app must be on the App Store / TestFlight.
+
+
+================================================================
+  Support / සහාය : WhatsApp 0774940944
+================================================================
